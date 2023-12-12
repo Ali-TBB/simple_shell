@@ -172,6 +172,7 @@ void insert_all_command(data_of_program *data)
 		if (current->falg_type == CHAIN_AND && current->comande_num != 0)
 		{
 			tok = strtok(buffer, "&&");
+			printf("%s",tok);
 			buffer2 = strdup(buffer);
 			free(buffer);
 			strremove = _strcat(tok, "&& ");
