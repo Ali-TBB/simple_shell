@@ -1,6 +1,4 @@
-#include "main.h"
-
-int fileExistsInDirectory(const char *filename, const char *directory)
+/*int fileExistsInDirectory(const char *filename, const char *directory)
 {
 	FILE *file;
 	char path[1024];
@@ -95,3 +93,4 @@ void get_command(list_t **head, char **Array)
         }
     }
 }
+*/
