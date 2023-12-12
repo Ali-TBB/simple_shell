@@ -75,22 +75,29 @@ char *removeSubstring(char *original, const char *substring)
 {
 	char *result = NULL;
 	char *found = strstr(original, substring);
-	size_t lengthAfter;
 	size_t lengthBefore;
+	size_t lengthAfter;
 
-	if (found != NULL) {
+	if (found != NULL)
+	{
 		lengthBefore = found - original;
 		lengthAfter = strlen(found + strlen(substring));
 
 		result = (char *)malloc(lengthBefore + lengthAfter + 1);
-		if (result != NULL) {
+		if (result != NULL)
+		{
 			strncpy(result, original, lengthBefore);
 			strcpy(result + lengthBefore, found + strlen(substring));
 		}
+	} else
+	{
+
+		result = strdup(original);
 	}
 
 	return (result);
 }
+
 /**
  * _strcat - concatenates two strings.
  * @dest: the destination string.

@@ -77,7 +77,7 @@ void run(char *prompt, data_of_program *data)
 {
 	size_t len = 0;
 	ssize_t read;
-
+	int lenght;
 
 	while (++(data->exec_counter))
 	{
@@ -96,6 +96,12 @@ void run(char *prompt, data_of_program *data)
 				perror("getline");
 				exit(EXIT_FAILURE);
 			}
+		}
+		lenght = strlen(data->input_line);
+		if (lenght)
+		{
+			if (data->input_line[lenght - 1] == '\n')
+				data->input_line[lenght - 1] = '\0';
 		}
 		execute_help(data);
 		read = 0;

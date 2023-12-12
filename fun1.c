@@ -15,7 +15,7 @@ void get_chain(data_of_program *data)
     com_list *new_command = NULL;
     int i = 0, a = 0;
 
-    while (data->input_line[i] != '\n')
+    while (data->input_line[i] != '\0')
     {
         if (data->input_line[i] == '&' && data->input_line[i + 1] == '&')
         {
@@ -41,12 +41,10 @@ void get_chain(data_of_program *data)
         }
 		i++;
     }
-	if (a == 0)
-	{
     new_command = add_comande_end(data);
     new_command->falg_type = CHAIN_NR;
     new_command->comande_num = ++a;
-	}
+
     insert_all_command(data);
 }
 /**
@@ -59,12 +57,12 @@ void insert_command_and(com_list *current, char *buffer)
 	char *tok;
 	int i;
 
-	printf("%s\n", buffer);
+
 	if (current->falg_type == CHAIN_AND)
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		printf("%s\n",tok);
+		printf("name of comman: %s\n", tok);
 		current->commande_name = tok;
 		tok = strtok(NULL, " ");
 		i = 0;
@@ -162,39 +160,37 @@ void insert_command_nr(data_of_program *data, com_list *current)
 void insert_all_command(data_of_program *data)
 {
 	com_list *current = data->commande;
-	char *tok;
-	char *buffer = strdup(data->input_line);
+	char *tok = malloc(25 * sizeof(char));
+	char *buffer = data->input_line;
 	char *buffer2;
 	char *strremove;
+
 
 	while (current)
 	{
 		if (current->falg_type == CHAIN_AND && current->comande_num != 0)
 		{
-			tok = strtok(buffer, "&&");
-			printf("%s",tok);
-			buffer2 = strdup(buffer);
-			free(buffer);
-			strremove = _strcat(tok, "&& ");
-			buffer = removeSubstring(buffer2, strremove);
+			strcpy(tok, _strtok(buffer, "&"));
+			printf("token is ; %s\n", tok);
 			insert_command_and(current, tok);
-			free(buffer2);
+			buffer2 = strdup(buffer);
+			strremove = _strcat(tok, "ali && ");
+			buffer = removeSubstring(buffer2, strremove);
+			printf("buffer: %s\n", buffer);
 		} else if (current->falg_type == CHAIN_OR && current->comande_num != 0)
 		{
-			tok = strtok(buffer, "||");
+			strcpy(tok, strtok(buffer, "||"));
+			insert_command_or(current, tok);
 			buffer2 = strdup(buffer);
-			free(buffer);
 			strremove = _strcat(tok, "|| ");
 			buffer = removeSubstring(buffer2, strremove);
-			insert_command_and(current, tok);
 		} else if (current->falg_type == CHAIN_WITH && current->comande_num != 0)
 		{
-			tok = strtok(buffer, ";");
+			strcpy(tok, strtok(buffer, "||"));
+			insert_command_with(current, tok);
 			buffer2 = strdup(buffer);
-			free(buffer);
-			strremove = _strcat(tok, "; ");
+			strremove = _strcat(tok, "|| ");
 			buffer = removeSubstring(buffer2, strremove);
-			insert_command_and(current, tok);
 		} else if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 		{
 			insert_command_nr(data, current);
