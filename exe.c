@@ -62,6 +62,7 @@ void execute_help(data_of_program *data)
 	get_env(data);
 	get_chain(data);
     get_alias(data);
+    print_all(data);
     while (command1)
     {
         if (command1->next != NULL)
@@ -88,7 +89,6 @@ void execute_help(data_of_program *data)
             execute(data, command1);
             execute(data, command2);
         }
-        command1 = command2;
-        command2 = command2->next;
+        command1 = command1->next;
     }
 }

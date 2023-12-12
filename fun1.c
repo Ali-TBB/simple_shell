@@ -63,12 +63,13 @@ void insert_command_and(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		current->commande_name = strdup(tok);
+		printf("%s\n",tok);
+		current->commande_name = tok;
 		tok = strtok(NULL, " ");
 		i = 0;
 		while (tok != NULL)
 		{
-			current->arg[i] = strdup(tok);
+			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
 		}
@@ -88,12 +89,12 @@ void insert_command_or(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		current->commande_name = strdup(tok);
+		current->commande_name = tok;
 		tok = strtok(NULL, " ");
 		i = 0;
 		while (tok != NULL)
 		{
-			current->arg[i] = strdup(tok);
+			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
 		}
@@ -104,7 +105,7 @@ void insert_command_or(com_list *current, char *buffer)
  * @data: Pointer to the data_of_program struct.
  * Return: void.
  */
-void insert_command_with(com_list *current, char *buffer )
+void insert_command_with(com_list *current, char *buffer)
 {
 	char *tok;
 	int i;
@@ -113,12 +114,12 @@ void insert_command_with(com_list *current, char *buffer )
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		current->commande_name = strdup(tok);
+		current->commande_name = tok;
 		tok = strtok(NULL, " ");
 		i = 0;
 		while (tok != NULL)
 		{
-			current->arg[i] = strdup(tok);
+			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
 		}
@@ -172,7 +173,7 @@ void insert_all_command(data_of_program *data)
 			tok = strtok(buffer, "&&");
 			buffer2 = strdup(buffer);
 			free(buffer);
-			strremove = _strcat(tok, "&");
+			strremove = _strcat(tok, "&& ");
 			buffer = removeSubstring(buffer2, strremove);
 			insert_command_and(current, tok);
 			free(buffer2);
@@ -181,7 +182,7 @@ void insert_all_command(data_of_program *data)
 			tok = strtok(buffer, "||");
 			buffer2 = strdup(buffer);
 			free(buffer);
-			strremove = _strcat(tok, "|");
+			strremove = _strcat(tok, "|| ");
 			buffer = removeSubstring(buffer2, strremove);
 			insert_command_and(current, tok);
 		} else if (current->falg_type == CHAIN_WITH && current->comande_num != 0)
@@ -189,7 +190,7 @@ void insert_all_command(data_of_program *data)
 			tok = strtok(buffer, ";");
 			buffer2 = strdup(buffer);
 			free(buffer);
-			strremove = _strcat(tok, ";");
+			strremove = _strcat(tok, "; ");
 			buffer = removeSubstring(buffer2, strremove);
 			insert_command_and(current, tok);
 		} else if (current->falg_type == CHAIN_NR && current->comande_num != 0)

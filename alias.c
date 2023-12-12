@@ -16,7 +16,7 @@ void get_alias(data_of_program *data)
 	command = data->commande;
 	while (command)
 	{
-		buffer = strdup(command->commande_name);
+		buffer = command->commande_name;
 		current = data->alias_list;
 		while (current)
 		{
@@ -29,7 +29,6 @@ void get_alias(data_of_program *data)
 			}
 			current = current->next;
 		}
-		free(buffer);
 		command = command->next;
 	}
 }
