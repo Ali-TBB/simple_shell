@@ -59,6 +59,7 @@ void insert_command_and(com_list *current, char *buffer)
 	char *tok;
 	int i;
 
+	printf("%s\n", buffer);
 	if (current->falg_type == CHAIN_AND)
 	{
 		current->arg = malloc_arg();
