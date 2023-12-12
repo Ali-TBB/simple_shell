@@ -113,14 +113,15 @@ void insert_command_and(com_list *current, char *buffer);
 void insert_command_or(com_list *current, char *buffer);
 void insert_command_with(com_list *current, char *buffer);
 void insert_all_command(data_of_program *data);
-void insert_command_nr(data_of_program *data,  com_list *current);
+void insert_command_nr(com_list *current, char *buffer);
 char **malloc_arg();
 
 /*========  exe.c  ========*/
 
 int execute(data_of_program *data, com_list *command);
 void execute_help(data_of_program *data);
-/*com_list *new_command(data_of_program *data);
-*/
+
+/*========  check_path.c  ========*/
+int searchFileInPath(data_of_program *data);
 void print_all(data_of_program *data);
 #endif

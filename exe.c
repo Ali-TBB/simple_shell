@@ -62,7 +62,6 @@ void execute_help(data_of_program *data)
 	get_env(data);
 	get_chain(data);
     get_alias(data);
-    print_all(data);
     while (command1)
     {
         if (command1->next != NULL)

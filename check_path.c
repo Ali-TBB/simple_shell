@@ -1,4 +1,8 @@
-/*int fileExistsInDirectory(const char *filename, const char *directory)
+#include "shell.h"
+
+
+
+int fileExistsInDirectory(const char *filename, const char *directory)
 {
 	FILE *file;
 	char path[1024];
@@ -13,12 +17,12 @@
 	}
 }
 
-int searchFileInPath(list_t **head)
+int searchFileInPath(data_of_program *data)
 {
 	char *path = getenv("PATH");
 	char *token;
 	int found;
-	list_t *current = *head;
+	com_list *current = data->commande;
 
 	if (path == NULL) {
 		fprintf(stderr, "PATH environment variable not set\n");
@@ -30,7 +34,7 @@ int searchFileInPath(list_t **head)
 		found = 0;
 		while (token != NULL)
 		{
-			if (fileExistsInDirectory(current->filename, token))
+			if (fileExistsInDirectory(current->commande_name, token))
 			{
 				current->path = strdup(token);
 				found = 1;
@@ -47,8 +51,7 @@ int searchFileInPath(list_t **head)
 
 		current = current->next;
 	}
-
-	return 1;
+	return (1);
 }
 
 void get_command(list_t **head, char **Array)

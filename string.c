@@ -73,29 +73,12 @@ int _strcmp(const char *s1, const char *s2)
  */
 char *removeSubstring(char *original, const char *substring)
 {
-	char *result = NULL;
-	char *found = strstr(original, substring);
-	size_t lengthBefore;
-	size_t lengthAfter;
-
-	if (found != NULL)
+	while (*original == *substring)
 	{
-		lengthBefore = found - original;
-		lengthAfter = strlen(found + strlen(substring));
-
-		result = (char *)malloc(lengthBefore + lengthAfter + 1);
-		if (result != NULL)
-		{
-			strncpy(result, original, lengthBefore);
-			strcpy(result + lengthBefore, found + strlen(substring));
-		}
-	} else
-	{
-
-		result = strdup(original);
+		original++;
+		substring++;
 	}
-
-	return (result);
+	return (original);
 }
 
 /**

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 
 /**
  * get_chain - gets the command chain from the input data.
@@ -54,22 +55,20 @@ void get_chain(data_of_program *data)
  */
 void insert_command_and(com_list *current, char *buffer)
 {
-	char *tok;
+	char *toke;
 	int i;
-
 
 	if (current->falg_type == CHAIN_AND)
 	{
 		current->arg = malloc_arg();
-		tok = strtok(buffer, " ");
-		printf("name of comman: %s\n", tok);
-		current->commande_name = tok;
-		tok = strtok(NULL, " ");
+		toke = strtok(buffer, " ");
+		current->commande_name = strdup(toke);
+		toke = strtok(NULL, " ");
 		i = 0;
-		while (tok != NULL)
+		while (toke != NULL)
 		{
-			current->arg[i] = tok;
-			tok = strtok(NULL, " ");
+			current->arg[i] = toke;
+			toke = strtok(NULL, " ");
 			i++;
 		}
 	}
@@ -88,7 +87,7 @@ void insert_command_or(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		current->commande_name = tok;
+		current->commande_name = strdup(tok);
 		tok = strtok(NULL, " ");
 		i = 0;
 		while (tok != NULL)
@@ -106,20 +105,20 @@ void insert_command_or(com_list *current, char *buffer)
  */
 void insert_command_with(com_list *current, char *buffer)
 {
-	char *tok;
+	char *toke;
 	int i;
 
 	if (current->falg_type == CHAIN_WITH)
 	{
 		current->arg = malloc_arg();
-		tok = strtok(buffer, " ");
-		current->commande_name = tok;
-		tok = strtok(NULL, " ");
+		toke = strtok(buffer, " ");
+		current->commande_name = strdup(toke);
+		toke = strtok(NULL, " ");
 		i = 0;
-		while (tok != NULL)
+		while (toke != NULL)
 		{
-			current->arg[i] = tok;
-			tok = strtok(NULL, " ");
+			current->arg[i] = toke;
+			toke = strtok(NULL, " ");
 			i++;
 		}
 	}
@@ -129,13 +128,11 @@ void insert_command_with(com_list *current, char *buffer)
  * @data: Pointer to the data_of_program struct.
  * Return: void.
  */
-void insert_command_nr(data_of_program *data, com_list *current)
+void insert_command_nr(com_list *current, char *buffer)
 {
 	char *tok;
-	char *buffer;
 	int i;
 
-	buffer = strdup(data->input_line);
 	if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 	{
 		tok = strtok(buffer, " ");
@@ -145,7 +142,6 @@ void insert_command_nr(data_of_program *data, com_list *current)
 		current->arg = malloc_arg();
 		while (tok != NULL)
 		{
-			printf("arg[%d]: %s\n",i , tok);
 			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
@@ -162,38 +158,27 @@ void insert_all_command(data_of_program *data)
 	com_list *current = data->commande;
 	char *tok = malloc(25 * sizeof(char));
 	char *buffer = data->input_line;
-	char *buffer2;
-	char *strremove;
-
 
 	while (current)
 	{
 		if (current->falg_type == CHAIN_AND && current->comande_num != 0)
 		{
 			strcpy(tok, _strtok(buffer, "&"));
-			printf("token is ; %s\n", tok);
 			insert_command_and(current, tok);
-			buffer2 = strdup(buffer);
-			strremove = _strcat(tok, "ali && ");
-			buffer = removeSubstring(buffer2, strremove);
-			printf("buffer: %s\n", buffer);
+			buffer = removeSubstring(_strtok(NULL, ""), "& ");
 		} else if (current->falg_type == CHAIN_OR && current->comande_num != 0)
 		{
-			strcpy(tok, strtok(buffer, "||"));
+			strcpy(tok, _strtok(buffer, "|"));
 			insert_command_or(current, tok);
-			buffer2 = strdup(buffer);
-			strremove = _strcat(tok, "|| ");
-			buffer = removeSubstring(buffer2, strremove);
+			buffer = removeSubstring(_strtok(NULL, ""), "| ");
 		} else if (current->falg_type == CHAIN_WITH && current->comande_num != 0)
 		{
-			strcpy(tok, strtok(buffer, "||"));
+			strcpy(tok, _strtok(buffer, ";"));
 			insert_command_with(current, tok);
-			buffer2 = strdup(buffer);
-			strremove = _strcat(tok, "|| ");
-			buffer = removeSubstring(buffer2, strremove);
+			buffer = removeSubstring(_strtok(NULL, ""), " ");
 		} else if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 		{
-			insert_command_nr(data, current);
+			insert_command_nr(current, buffer);
 		}
 		current = current->next;
 	}
