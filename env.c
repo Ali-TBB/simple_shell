@@ -1,59 +1,67 @@
 #include "shell.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 /**
- * get_env - processes and updates the input line 
+ * get_env - processes and updates the input line
  * by replacing environment variables.
  * @data: the data of the program.
  */
 
 void get_env(data_of_program *data)
 {
-
 	char *str = _strdup(data->input_line);
 	char *buffer = _strdup(data->input_line);
-	char *temp;
-    int destIndex = 0;
-    list_t *current;
+	char *tok, *temp;
+	int len = 0, i;
 
-    if (data == NULL || data->input_line == NULL || data->env == NULL)
+	if (data == NULL || data->input_line == NULL || data->env == NULL)
+		return;
+	while (*buffer != '$')
 	{
-        return;
-    }
-    str = _strdup(data->input_line);
-	buffer = _strdup(data->input_line);
-    while (*str)
+		if (*buffer == '\0')
+			return;
+		buffer++;
+		len++;
+	}
+	buffer++;
+	tok = strtok(buffer, " ");
+	tok = _getenv(tok, data);
+	if (tok == NULL)
+		return;
+	temp = (char *)malloc(strlen(str) + strlen(tok) + 1);
+	if (temp == NULL)
 	{
-        if (*str == '$')
-		{
-            char *str1 = strtok(++str, " ");
-            if (str1 != NULL)
-			{
-                current = get_nodeint_at_var(data->env, str1);
-                if (current != NULL)
-				{
-                    temp = removestring(buffer, current->value);
-                    if (temp != NULL)
-					{
-                        free(buffer);
-                        buffer = temp;
-                        destIndex = strlen(buffer);
-                    }
-                }
-                free(str1);
-            }
-        } else {
-            buffer[destIndex++] = *str++;
-        }
-    }
-
-    buffer[destIndex] = '\0';
-    free(data->input_line);
-    data->input_line = _strdup(buffer);
-    free(str);
-    free(buffer);
+		fprintf(stderr, "Memory allocation failed.\n");
+		exit(EXIT_FAILURE);
+	}
+	for (i = 0; i < len - 1; i++)
+		temp[i] = str[i];
+	temp = strcat(temp, " ");
+	temp = strcat(temp, tok);
+	while (*buffer != ' ')
+	{
+		if (*buffer == '\0')
+			break;
+		buffer++;
+	}
+	if (*buffer != '\0')
+		temp = strcat(temp, buffer);
+	free(data->input_line);
+	data->input_line = _strdup(temp);
+	get_env(data);
 }
-
+/**
+ * _getenv - Get the value of an environment variable.
+ * @env: Name of the environment variable.
+ * @data: Pointer to the data_of_program struct.
+ *
+ * This function retrieves the value of
+ * the specified environment variable from the
+ * environment list in the data structure.
+ *
+ * Return: Value of the environment variable or NULL if not found.
+ */
 char *_getenv(char *env, data_of_program *data)
 {
 	list_t *current;
@@ -68,6 +76,17 @@ char *_getenv(char *env, data_of_program *data)
 	else
 		return (NULL);
 }
+/**
+ * set_env - Set or update an environment variable in the data structure.
+ * @data: Pointer to the data_of_program struct.
+ * @command: Current command from the command list.
+ *
+ * This function sets or updates an environment
+ * variable in the data structure based on
+ * the provided command.
+ *
+ * Return: 1 if the environment variable is set or updated, 0 otherwise.
+ */
 int set_env(data_of_program *data, com_list *command)
 {
 	char *var;

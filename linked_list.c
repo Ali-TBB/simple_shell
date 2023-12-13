@@ -4,7 +4,6 @@
 
 /**
  * add_nodeint_end - add node in the end.
- * @n: new element.
  * @head: head of double pointer
  * Return: the address of the new element.
  */
@@ -50,34 +49,37 @@ void free_listint(list_t *head)
 	}
 }
 /**
- * get_nodeint_at_index - print list
+ * get_nodeint_at_var - print list
  * @head: linked list.
- * @index: the index of the node, starting at 0.
+ * @var: the var of the node,
  * Return: node of index.
  */
 list_t *get_nodeint_at_var(list_t *head, const char *var)
 {
-    if (head == NULL || var == NULL) {
-        return (NULL);
-    }
+	if (head == NULL || var == NULL)
+		return (NULL);
 
-    while (head != NULL)
+	while (head != NULL)
 	{
-        if (_strcmp(head->var, var) == 0)
+		if (_strcmp(head->var, var) == 0)
 		{
-            return (head);
-        }
-        head = head->next;
-    }
+			return (head);
+		}
+		head = head->next;
+	}
 
-    return (NULL);
+	return (NULL);
 }
 
 /**
- * add_nodeint_end - add node in the end.
- * @n: new element.
- * @head: head of double pointer
- * Return: the address of the new element.
+ * add_comande_end - Add a new command node at the end of the list.
+ * @data: Pointer to the data_of_program struct containing the command list.
+ *
+ * This function adds a new command node at the end of the command list
+ * in the data_of_program struct. If the list is empty, it creates the
+ * list and returns a pointer to the new node.
+ *
+ * Return: Pointer to the new command node.
  */
 com_list *add_comande_end(data_of_program *data)
 {
@@ -102,7 +104,7 @@ com_list *add_comande_end(data_of_program *data)
 	return (new);
 }
 /**
- * free_listint - free linked lest.
+ * free_listcom - free linked lest.
  * @head: linked list.
  * Return: void.
  */

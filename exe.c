@@ -1,58 +1,67 @@
 #include "shell.h"
 #include <stdio.h>
 
-
-
+/**
+ * execute - Execute a command based on the data structure.
+ * @data: Pointer to the data_of_program struct.
+ * @command: Current command from the command list.
+ *
+ * This function executes a command based on
+ * the provided data structure and command.
+ *
+ * Return: 1 if the command is executed successfully, 0 otherwise.
+ */
 int execute(data_of_program *data, com_list *command)
 {
-    int status, i = 0, a = 0, j;
-    char path[1024];
-    char *envp[] = {NULL};
-    char *args[20];
-    pid_t child_pid;
+	int status, i = 0, a = 0, j;
+	char path[1024];
+	char *envp[] = {NULL}, *args[20];
+	pid_t child_pid;
 
-    for (j = 0; j < 20; j++)
-	{
-        args[j] = NULL;
-    }
+	command->comande_num = 0;
+	for (j = 0; j < 20; j++)
+		args[j] = NULL;
 	if (command->arg != NULL)
 	{
 	args[a] = _strdup(command->commande_name);
-    while (command->arg[a] != NULL)
-	{
-        args[a + 1] = _strdup(command->arg[a]);
-        a++;
-    }
+	while (command->arg[a] != NULL)
+	{	args[a + 1] = _strdup(command->arg[a]);
+		a++;	}
 	}
-    if (check_alias(data, command) || set_env(data,command))
+	if (check_alias(data, command) || set_env(data, command) || _clear(command) ||
+		changeDirectory(command, data))
+		return (1);
+	if (searchFileInPath(command, data))
 	{
-        return (1);
-    }
-    if (searchFileInPath(command, data)) {
-        snprintf(path, sizeof(path), "%s/%s", command->path, command->commande_name);
-        child_pid = fork();
-        if (child_pid == 0)
+		snprintf(path, sizeof(path), "%s/%s", command->path, command->commande_name);
+		child_pid = fork();
+		if (child_pid == 0)
 		{
-            if (execve(path, args, envp) == -1)
+			if (execve(path, args, envp) == -1)
 			{
-                perror("execve");
-                exit(EXIT_FAILURE);
-            }
-        } else
+				perror("execve");
+				exit(EXIT_FAILURE);
+			}
+		} else
 		{
-            wait(&status);
-            for (j = 0; j < 20; j++)
-			{
-                free(args[j]);
-            }
-
-            i = 1;
-        }
-    } else {
-        printf("%s: %s: command not found.\n", data->prog_name, command->commande_name);
-    }
-    return (i);
+			wait(&status);
+			for (j = 0; j < 20; j++)
+				free(args[j]);
+			i = 1;
+		}
+	} else
+		printf("%s: %s: command not found.\n",
+			data->prog_name, command->commande_name);
+	return (i);
 }
+/**
+ * execute_help - Helper function to execute a list of commands.
+ * @data: Pointer to the data_of_program struct.
+ *
+ * This function is a helper for executing a
+ * list of commands in the data structure.
+ * It calls the execute function for each command in the command list.
+ */
 void execute_help(data_of_program *data)
 {
 	com_list *command1 = data->commande;
@@ -79,7 +88,8 @@ void execute_help(data_of_program *data)
 		{
 			if (execute(data, command1))
 			{
-			}else
+			}
+			else
 				execute(data, command2);
 		}
 		if (command1->falg_type == CHAIN_WITH && command1->comande_num != 0)

@@ -2,9 +2,15 @@
 #include <linux/limits.h>
 #include <stdio.h>
 #include <string.h>
-
-
-
+/**
+ * fileExistsInDirectory - Check if a file exists in a specific directory.
+ * @filename: Name of the file to check.
+ * @directory: Directory to check for the file.
+ *
+ * This function checks if a file with the given name exists in the specified
+ * directory.
+ * Return: 1 if the file exists, 0 otherwise.
+ */
 int fileExistsInDirectory(const char *filename, const char *directory)
 {
 	FILE *file;
@@ -15,23 +21,30 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 	if (file != NULL)
 	{
 		fclose(file);
-		return 1;
-	} else {
-		return 0;
+		return (1);
 	}
-}
 
+	return (0);
+}
+/**
+ * searchFileInPath - Search for a file in the directories
+* listed in the PATH variable.
+ * @current: Current command from the command list.
+ * @data: Pointer to the data_of_program struct.
+ *
+ * This function searches for the executable file in
+ * the directories listed in the PATH
+ * variable. If found, updates the command with
+ * the full path to the executable file.
+ *
+ * Return: 1 if the file is found and updated, 0 otherwise.
+ */
 int searchFileInPath(com_list *current, data_of_program *data)
 {
 	char *path = _getenv("PATH", data);
 	char *token, *tok;
 	int found;
 
-	if (path == NULL)
-	{
-		fprintf(stderr, "PATH environment variable not set\n");
-		return (0);
-	}
 	tok = strtok(current->commande_name, "/");
 	tok = strtok(NULL, "/");
 	if (tok != NULL)

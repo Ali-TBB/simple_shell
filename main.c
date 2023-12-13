@@ -21,7 +21,7 @@ int main(int ac, char *av[], char *env[])
 	data_init(data, ac, av, env);
 	run(prompt, data);
 
-	return 0;
+	return (0);
 }
 
 /**
@@ -35,7 +35,7 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
 {
 	int i = 0;
 	list_t *current;
-	list_t alias = {"env", "env",NULL};
+	list_t alias = {"env", "env", NULL};
 
 	data->prog_name = av[0];
 	data->exec_counter = 0;
@@ -69,7 +69,8 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
 }
 
 /**
- * run - Continuously reads input, prints the prompt, and executes a specified operation.
+ * run - Continuously reads input, prints the prompt,
+ * and executes a specified operation.
  * @prompt: The prompt to be printed.
  * @data: Pointer to the data_of_program struct.
  */
