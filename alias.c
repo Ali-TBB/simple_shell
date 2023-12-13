@@ -56,7 +56,7 @@ int check_alias(data_of_program *data, com_list *command)
     list_t *alias = data->alias_list;
     char *value;
     char *var;
-    int len, i = 0;
+    int i = 0;
 
 	if (_strcmp(command->commande_name, "alias") == 0)
 	{
@@ -70,12 +70,10 @@ int check_alias(data_of_program *data, com_list *command)
 			if (strchr(command->arg[i], '=') == NULL)
 				return (print_alias(data, command->arg[i]));
 			var = _strtok(command->arg[i], "=");
-			value =_strtok(NULL, "=");
-			printf("good\n");
-			len = strlen(var);
+			value =_strtok(NULL, "");
 			while (alias)
 			{
-				if (_strcmp(var, alias->var) == len)
+				if (_strcmp(var, alias->var) == 0)
 				{
 					free(alias->value);
 					alias->value = strdup(value);
@@ -85,7 +83,7 @@ int check_alias(data_of_program *data, com_list *command)
 			}
 			if (alias == NULL)
 			{
-				set_alias(data, var, _strtok(value, "="));
+				set_alias(data, var, value);
 				return (1);
 			}
 			i++;

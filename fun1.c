@@ -23,7 +23,6 @@ void get_chain(data_of_program *data)
 			new_command = add_comande_end(data);
             new_command->falg_type = CHAIN_AND;
             new_command->comande_num = ++a;
-			printf("work good \n");
             i += 2;
         }
         else if (data->input_line[i] == '|' && data->input_line[i + 1] == '|')

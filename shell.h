@@ -105,6 +105,7 @@ int print_all_alias(data_of_program *data);
 /*========  env.c  ========*/
 
 void get_env(data_of_program *data);
+char *_getenv(char *env, data_of_program *data);
 
 /*========  fun1.c  ========*/
 
@@ -122,6 +123,7 @@ int execute(data_of_program *data, com_list *command);
 void execute_help(data_of_program *data);
 
 /*========  check_path.c  ========*/
-int searchFileInPath(data_of_program *data);
+int fileExistsInDirectory(const char *filename, const char *directory);
+int searchFileInPath(com_list *current, data_of_program *data);
 void print_all(data_of_program *data);
 #endif

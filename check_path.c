@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 
 
 
@@ -9,7 +10,8 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 
 	snprintf(path, sizeof(path), "%s/%s", directory, filename);
 	file = fopen(path, "r");
-	if (file != NULL) {
+	if (file != NULL)
+	{
 		fclose(file);
 		return 1;
 	} else {
@@ -17,43 +19,36 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 	}
 }
 
-int searchFileInPath(data_of_program *data)
+int searchFileInPath(com_list *current, data_of_program *data)
 {
-	char *path = getenv("PATH");
+	char *path = _getenv("PATH", data);
 	char *token;
 	int found;
-	com_list *current = data->commande;
 
-	if (path == NULL) {
-		fprintf(stderr, "PATH environment variable not set\n");
-		return 0;
-	}
-	while (current != NULL)
+	if (path == NULL)
 	{
-		token = strtok(path, ":");
-		found = 0;
-		while (token != NULL)
-		{
-			if (fileExistsInDirectory(current->commande_name, token))
-			{
-				current->path = strdup(token);
-				found = 1;
-				break;
-			}
-
-			token = strtok(NULL, ":");
-		}
-
-		if (!found)
-		{
-			current->path = NULL;
-		}
-
-		current = current->next;
+		fprintf(stderr, "PATH environment variable not set\n");
+		return (0);
 	}
-	return (1);
+	token = _strtok(path, ":");
+	found = 0;
+	while (token != NULL)
+	{
+		if (fileExistsInDirectory(current->commande_name, token))
+		{
+			current->path = strdup(token);
+			found = 1;
+			break;
+		}
+		token = _strtok(NULL, ":");
+	}
+	if (!found)
+	{
+		current->path = NULL;
+	}
+	return (found);
 }
-
+/*
 void get_command(list_t **head, char **Array)
 {
     list_t *current = *head;
