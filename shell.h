@@ -89,10 +89,15 @@ void free_listint(list_t *head);
 /*========  string.c  ========*/
 
 char *removeSubstring(char *original, const char *substring);
-char *_strtok(char *line, char *delim);
 int _strcmp(const char *s1, const char *s2);
 char *_strcat(char *dest, const char *src);
-/*int fileExistsInDirectory(const char *filename, const char *directory);*/
+
+
+/*========  string1.c  ========*/
+char *_strdup(const char *str);
+char *_strchr(const char *str, int c);
+int _strlen(const char *s);
+char *removestring(const char *buffer, const char *substring);
 
 /*========  alias.c  ========*/
 
@@ -106,6 +111,7 @@ int print_all_alias(data_of_program *data);
 
 void get_env(data_of_program *data);
 char *_getenv(char *env, data_of_program *data);
+int set_env(data_of_program *data, com_list *command);
 
 /*========  fun1.c  ========*/
 
@@ -122,8 +128,9 @@ char **malloc_arg();
 int execute(data_of_program *data, com_list *command);
 void execute_help(data_of_program *data);
 
+
 /*========  check_path.c  ========*/
 int fileExistsInDirectory(const char *filename, const char *directory);
 int searchFileInPath(com_list *current, data_of_program *data);
-void print_all(data_of_program *data);
+
 #endif

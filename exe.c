@@ -5,42 +5,54 @@
 
 int execute(data_of_program *data, com_list *command)
 {
-	int status, i = 0;
-	char path[1024];
-	char *envp[] = {NULL};
-	pid_t child_pid;
+    int status, i = 0, a = 0, j;
+    char path[1024];
+    char *envp[] = {NULL};
+    char *args[20];
+    pid_t child_pid;
 
-	command->comande_num = 0;
-	if (check_alias(data, command))
-		return (1);
-	if (searchFileInPath(command, data))
+    for (j = 0; j < 20; j++)
 	{
-		snprintf(path, sizeof(path), "%s/%s", command->path, command->commande_name);
-		child_pid = fork();
-		if (child_pid == 0)
-		{
-			if (execve(path, command->arg, envp) == -1)
-			{
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
-			else 
-			{
-			i = 1;
-			}
-		}
-		else
-		{
-			wait(&status);
-		}
-	}
-	else
+        args[j] = NULL;
+    }
+	if (command->arg != NULL)
 	{
-	printf("bash: %s: command not found.\n", command->commande_name);
+	args[a] = _strdup(command->commande_name);
+    while (command->arg[a] != NULL)
+	{
+        args[a + 1] = _strdup(command->arg[a]);
+        a++;
+    }
 	}
-	return (i);
+    if (check_alias(data, command) || set_env(data,command))
+	{
+        return (1);
+    }
+    if (searchFileInPath(command, data)) {
+        snprintf(path, sizeof(path), "%s/%s", command->path, command->commande_name);
+        child_pid = fork();
+        if (child_pid == 0)
+		{
+            if (execve(path, args, envp) == -1)
+			{
+                perror("execve");
+                exit(EXIT_FAILURE);
+            }
+        } else
+		{
+            wait(&status);
+            for (j = 0; j < 20; j++)
+			{
+                free(args[j]);
+            }
+
+            i = 1;
+        }
+    } else {
+        printf("%s: %s: command not found.\n", data->prog_name, command->commande_name);
+    }
+    return (i);
 }
-
 void execute_help(data_of_program *data)
 {
 	com_list *command1 = data->commande;

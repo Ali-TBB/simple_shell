@@ -35,7 +35,7 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
 {
 	int i = 0;
 	list_t *current;
-	list_t *alias = NULL;
+	list_t alias = {"env", "env",NULL};
 
 	data->prog_name = av[0];
 	data->exec_counter = 0;
@@ -55,15 +55,15 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
 	}
 
 	data->env = NULL;
-	data->alias_list = alias;
+	data->alias_list = &alias;
 	data->commande = add_comande_end(data);
 	data->commande->comande_num = 0;
 	data->commande->commande_name = av[0];
 	while (env[i] != NULL)
 	{
 		current = add_nodeint_end(&data->env);
-		current->var = _strtok(env[i], "=");
-		current->value = _strtok(NULL, "=");
+		current->var = strtok(env[i], "=");
+		current->value = strtok(NULL, "=");
 		i++;
 	}
 }

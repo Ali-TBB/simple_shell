@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <string.h>
 
 /**
  * get_alias - processes and updates the input line
@@ -21,10 +20,10 @@ void get_alias(data_of_program *data)
 		while (current)
 		{
 			alias = current->var;
-			if (strcmp(alias, buffer) == 0)
+			if (_strcmp(alias, buffer) == 0)
 			{
 				free(command->commande_name);
-				command->commande_name = strdup(current->value);
+				command->commande_name = _strdup(current->value);
 				break;
 			}
 			current = current->next;
@@ -62,21 +61,21 @@ int check_alias(data_of_program *data, com_list *command)
 	{
 		if (command->arg == NULL)
 		{
-			print_all(data);
+			print_all_alias(data);
 			return (1);
 		}
 		while (command->arg[i])
 		{
 			if (strchr(command->arg[i], '=') == NULL)
 				return (print_alias(data, command->arg[i]));
-			var = _strtok(command->arg[i], "=");
-			value =_strtok(NULL, "");
+			var = strtok(command->arg[i], "=");
+			value = strtok(NULL, "");
 			while (alias)
 			{
 				if (_strcmp(var, alias->var) == 0)
 				{
 					free(alias->value);
-					alias->value = strdup(value);
+					alias->value = _strdup(value);
 					return (1);
 				}
 				alias = alias->next;

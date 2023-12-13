@@ -61,15 +61,19 @@ void insert_command_and(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		toke = strtok(buffer, " ");
-		current->commande_name = strdup(toke);
+		current->commande_name = _strdup(toke);
 		toke = strtok(NULL, " ");
 		i = 0;
+		if (toke != NULL)
+		{
 		while (toke != NULL)
 		{
 			current->arg[i] = toke;
 			toke = strtok(NULL, " ");
 			i++;
 		}
+		} else
+			current->arg = NULL;
 	}
 }
 /**
@@ -86,15 +90,19 @@ void insert_command_or(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		tok = strtok(buffer, " ");
-		current->commande_name = strdup(tok);
+		current->commande_name = _strdup(tok);
 		tok = strtok(NULL, " ");
 		i = 0;
+		if (tok != NULL)
+		{
 		while (tok != NULL)
 		{
 			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
 		}
+		} else
+			current->arg = NULL;
 	}
 }
 /**
@@ -111,15 +119,19 @@ void insert_command_with(com_list *current, char *buffer)
 	{
 		current->arg = malloc_arg();
 		toke = strtok(buffer, " ");
-		current->commande_name = strdup(toke);
+		current->commande_name = _strdup(toke);
 		toke = strtok(NULL, " ");
 		i = 0;
+		if (toke != NULL)
+		{
 		while (toke != NULL)
 		{
 			current->arg[i] = toke;
 			toke = strtok(NULL, " ");
 			i++;
 		}
+		} else
+			current->arg = NULL;
 	}
 }
 /**
@@ -135,16 +147,20 @@ void insert_command_nr(com_list *current, char *buffer)
 	if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 	{
 		tok = strtok(buffer, " ");
-		current->commande_name = strdup(tok);
+		current->commande_name = _strdup(tok);
 		tok = strtok(NULL, " ");
 		i = 0;
 		current->arg = malloc_arg();
+		if (tok != NULL)
+		{
 		while (tok != NULL)
 		{
 			current->arg[i] = tok;
 			tok = strtok(NULL, " ");
 			i++;
 		}
+		} else
+			current->arg = NULL;
 	}
 }
 /**
@@ -155,31 +171,34 @@ void insert_command_nr(com_list *current, char *buffer)
 void insert_all_command(data_of_program *data)
 {
 	com_list *current = data->commande;
-	char *tok = malloc(25 * sizeof(char));
-	char *buffer = data->input_line;
+	char *tok;
+	char *buffer = _strdup(data->input_line);
 
 	while (current)
 	{
 		if (current->falg_type == CHAIN_AND && current->comande_num != 0)
 		{
-			strcpy(tok, _strtok(buffer, "&"));
+			tok = strtok(buffer, "&");
 			insert_command_and(current, tok);
-			buffer = removeSubstring(_strtok(NULL, ""), "& ");
+			tok = strtok(buffer, "&");
+			buffer = removeSubstring(tok, "& ");
 		} else if (current->falg_type == CHAIN_OR && current->comande_num != 0)
 		{
-			strcpy(tok, _strtok(buffer, "|"));
-			insert_command_or(current, tok);
-			buffer = removeSubstring(_strtok(NULL, ""), "| ");
+			tok =  strtok(buffer, "|");
+			insert_command_and(current, tok);
+			tok = strtok(NULL, "");
+			buffer = removeSubstring(tok, "| ");
 		} else if (current->falg_type == CHAIN_WITH && current->comande_num != 0)
 		{
-			strcpy(tok, _strtok(buffer, ";"));
-			insert_command_with(current, tok);
-			buffer = removeSubstring(_strtok(NULL, ""), " ");
+			tok =  strtok(buffer, ";");
+			insert_command_and(current, tok);
+			tok = strtok(NULL, "");
+			buffer = removeSubstring(tok, " ");
 		} else if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 		{
 			insert_command_nr(current, buffer);
 		}
 		current = current->next;
 	}
-
+	free(buffer);
 }

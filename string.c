@@ -1,5 +1,6 @@
 #include "shell.h"
-#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * _strtok - tokenizes a string.
@@ -7,42 +8,104 @@
  * @delim: the delimiter characters.
  * Return: pointer to the next token or NULL if no more tokens.
  */
-char *_strtok(char *line, char *delim)
+
+/*
+char *_strtok(char *text, char *delimiters)
 {
-	int j;
-	static char *str;
-	char *copystr;
+    int len_tx;
+    int i = 0;
+    int len_tok;
+    char *ptr;
+    int len_tex_new = 0;
+    char *tex_new;
 
-	if (line != NULL)
-		str = line;
-	for (; *str != '\0'; str++)
-	{
-		for (j = 0; delim[j] != '\0'; j++)
-		{
-			if (*str == delim[j])
-			break;
-		}
-		if (delim[j] == '\0')
-			break;
-	}
-	copystr = str;
-	if (*copystr == '\0')
-		return (NULL);
-	for (; *str != '\0'; str++)
-	{
-		for (j = 0; delim[j] != '\0'; j++)
-		{
-			if (*str == delim[j])
-			{
-				*str = '\0';
-				str++;
-				return (copystr);
-			}
-		}
-	}
-	return (copystr);
+    int c = 0, lo = 0, len_del = 0, del = 0, o = 0;
+
+    if (text == NULL || delimiters == NULL)
+    {
+        return NULL;
+    }
+
+    len_tx = strlen(text);
+    len_del = strlen(delimiters);
+
+    for (i = 0; i < len_tx; i++)
+    {
+
+        for (del = 0; del < len_del;)
+        {
+            if (text[i] == delimiters[del])
+            {
+                text[i] = '\0';
+                len_tok = strlen(text);
+                ptr = (char *)malloc(len_tok + 1);
+
+                if (ptr == NULL)
+                {
+                    return NULL;
+                }
+
+                for (o = 0; o < (len_tok + 1); o++)
+                {
+                    ptr[o] = text[o];
+                }
+                len_tex_new = (len_tx - len_tok);
+                if (ptr[0] == '\0')
+                {
+
+                    tex_new = (char *)malloc(len_tex_new);
+
+                    if (tex_new == NULL)
+                    {
+                        free(ptr);
+                        return NULL;
+                    }
+
+                    i++;
+
+                    for (c = 0; c < len_tex_new; c++)
+                    {
+                        *(tex_new + c) = text[i + c];
+                    }
+                    for (lo = 0; lo < len_tex_new; lo++)
+                    {
+                        *(text + lo) = *(tex_new + lo);
+                    }
+                    free(tex_new);
+                    free(ptr);
+                    i = 0;
+                    del = 0;
+                    continue;
+                }
+
+                tex_new = (char *)malloc(len_tex_new);
+
+                if (tex_new == NULL)
+                {
+                    free(ptr);
+                    return NULL;
+                }
+
+                i++;
+
+                for (c = 0; c < len_tex_new; c++)
+                {
+                    *(tex_new + c) = text[i + c];
+                }
+                for (lo = 0; lo < len_tex_new; lo++)
+                {
+                    *(text + lo) = *(tex_new + lo);
+                }
+                free(tex_new);
+
+                return (ptr);
+            }
+            del++;
+        }
+    }
+    return (NULL);
 }
-
+*/
 /**
  * _strcmp - compares two strings.
  * @s1: the first string.
@@ -52,6 +115,7 @@ char *_strtok(char *line, char *delim)
  */
 int _strcmp(const char *s1, const char *s2)
 {
+
 	while (*s1 != '\0' && *s2 != '\0')
 	{
 		if (*s1 != *s2)
@@ -73,12 +137,15 @@ int _strcmp(const char *s1, const char *s2)
  */
 char *removeSubstring(char *original, const char *substring)
 {
+	char *laststring;
+
 	while (*original == *substring)
 	{
 		original++;
 		substring++;
 	}
-	return (original);
+	laststring = _strdup(original);
+	return (laststring);
 }
 
 /**

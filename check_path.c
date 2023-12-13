@@ -1,5 +1,7 @@
 #include "shell.h"
+#include <linux/limits.h>
 #include <stdio.h>
+#include <string.h>
 
 
 
@@ -22,7 +24,7 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 int searchFileInPath(com_list *current, data_of_program *data)
 {
 	char *path = _getenv("PATH", data);
-	char *token;
+	char *token, *tok;
 	int found;
 
 	if (path == NULL)
@@ -30,17 +32,29 @@ int searchFileInPath(com_list *current, data_of_program *data)
 		fprintf(stderr, "PATH environment variable not set\n");
 		return (0);
 	}
-	token = _strtok(path, ":");
+	tok = strtok(current->commande_name, "/");
+	tok = strtok(NULL, "/");
+	if (tok != NULL)
+	{
+		current->path = _strdup(current->commande_name);
+		while (tok != NULL)
+		{
+			current->commande_name = _strdup(tok);
+			tok = strtok(NULL, "/");
+		}
+		return (1);
+	}
+	token = strtok(path, ":");
 	found = 0;
 	while (token != NULL)
 	{
 		if (fileExistsInDirectory(current->commande_name, token))
 		{
-			current->path = strdup(token);
+			current->path = _strdup(token);
 			found = 1;
 			break;
 		}
-		token = _strtok(NULL, ":");
+		token = strtok(NULL, ":");
 	}
 	if (!found)
 	{
@@ -48,47 +62,3 @@ int searchFileInPath(com_list *current, data_of_program *data)
 	}
 	return (found);
 }
-/*
-void get_command(list_t **head, char **Array)
-{
-    list_t *current = *head;
-	int a, i = 0, numArgs = 0;
-
-
-    while (Array[i] != NULL)
-	{
-        list_t *newNode = (list_t *)malloc(sizeof(list_t));
-        if (newNode == NULL)
-		{
-            fprintf(stderr, "Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-
-        newNode->filename = strdup(Array[i]);
-        newNode->argv = (char **)malloc((10) * sizeof(char *));
-        if (newNode->argv == NULL) {
-            fprintf(stderr, "Memory allocation failed\n");
-            exit(EXIT_FAILURE);
-        }
-
-        a = i + 1;
-        while (Array[a] != NULL && !(Array[a][0] == '&' && Array[a][1] == '&')) {
-            newNode->argv[numArgs] = strdup(Array[a]);
-            numArgs++;
-            a++;
-        }
-        newNode->argv[numArgs] = NULL;
-        newNode->next = NULL;
-        current->next = newNode;
-        current = newNode;
-
-        if (Array[a] != NULL)
-		{
-            i = a + 1;
-        } else
-		{
-            break;
-        }
-    }
-}
-*/
