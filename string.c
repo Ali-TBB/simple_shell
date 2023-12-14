@@ -1,26 +1,4 @@
 #include "shell.h"
-/**
- * _strcmp - compares two strings.
- * @s1: the first string.
- * @s2: the second string.
- * Return: an integer less than, equal to, or greater than zero
- * if s1 is found to be less than, equal to, or greater than s2, respectively.
- */
-int _strcmp(const char *s1, const char *s2)
-{
-
-	while (*s1 != '\0' && *s2 != '\0')
-	{
-		if (*s1 != *s2)
-		{
-			return (*s1 - *s2);
-		}
-		s1++;
-		s2++;
-	}
-
-	return (*s1 - *s2);
-}
 
 /**
  * removeSubstring - removes a substring from the original string.

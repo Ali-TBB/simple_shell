@@ -100,7 +100,7 @@ int set_env(data_of_program *data, com_list *command)
 		value = strtok(NULL, "");
 		while (env)
 		{
-			if (_strcmp(var, env->var) == 0)
+			if (strcmp(var, env->var) == 0)
 			{
 				free(env->value);
 				env->value = _strdup(value);
