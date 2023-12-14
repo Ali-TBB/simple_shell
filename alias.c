@@ -24,7 +24,7 @@ void get_alias(data_of_program *data)
 
 			if (alias != NULL)
 			{
-				printf("alias\n");
+				printf("alias is:  %s\n" , alias);
 				if (_strcmp(alias, buffer) == 0)
 				{
 					free(command->commande_name);
