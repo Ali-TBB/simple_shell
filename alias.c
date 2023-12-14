@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 
 /**
  * get_alias - processes and updates the input line
@@ -20,8 +21,10 @@ void get_alias(data_of_program *data)
 		while (current)
 		{
 			alias = current->var;
+
 			if (alias != NULL)
 			{
+				printf("alias\n");
 				if (_strcmp(alias, buffer) == 0)
 				{
 					free(command->commande_name);
