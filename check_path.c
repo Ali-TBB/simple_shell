@@ -74,6 +74,12 @@ int searchFileInPath(com_list *current, data_of_program *data)
 	}
 	return (found);
 }
+/**
+ * handlarg - Handle args based on the command.
+ * @command: Pointer to the com_list structure representing
+ * the command.
+ *
+ */
 void handlarg(com_list *command)
 {
 	char *tok;

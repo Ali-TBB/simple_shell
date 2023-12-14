@@ -141,6 +141,7 @@ int _clear(com_list *current)
 {
 	const char *clearSeq = "\033[H\033[J";
 	char *com = _strdup(current->commande_name);
+
 	if (current != NULL && com != NULL &&
 		_strcmp(com, "clear") == 0)
 	{
