@@ -6,7 +6,7 @@
  * Return: an integer less than, equal to, or greater than zero
  * if s1 is found to be less than, equal to, or greater than s2, respectively.
  */
-int _strcmp(const char *s1, const char *s2)
+int _strcmp(char *s1, char *s2)
 {
 
 	while (*s1 != '\0' && *s2 != '\0')

@@ -51,7 +51,7 @@ void free_listint(list_t *head)
  * @var: the var of the node,
  * Return: node of index.
  */
-list_t *get_nodeint_at_var(list_t *head, const char *var)
+list_t *get_nodeint_at_var(list_t *head, char *var)
 {
 	if (head == NULL || var == NULL)
 		return (NULL);

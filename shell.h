@@ -98,7 +98,7 @@ void run(char *prompt, data_of_program *data);
 /*========  linked_list.c  ========*/
 
 list_t *add_nodeint_end(list_t **head);
-list_t *get_nodeint_at_var(list_t *head, const char *var);
+list_t *get_nodeint_at_var(list_t *head, char *var);
 com_list *add_comande_end(data_of_program *data);
 void free_listcom(com_list *head);
 void free_listint(list_t *head);
@@ -107,7 +107,7 @@ void free_listint(list_t *head);
 
 char *removeSubstring(char *original, const char *substring);
 char *_strcat(char *dest, const char *src);
-int _strcmp(const char *s1, const char *s2);
+int _strcmp(char *s1, char *s2);
 
 
 /*========  string1.c  ========*/
