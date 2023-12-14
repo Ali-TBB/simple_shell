@@ -41,7 +41,7 @@ int fileExistsInDirectory(const char *filename, const char *directory)
  */
 int searchFileInPath(com_list *current, data_of_program *data)
 {
-	char *path = _getenv("PATH", data);
+	char *path;
 	char *token, *tok;
 	int found;
 
@@ -57,6 +57,7 @@ int searchFileInPath(com_list *current, data_of_program *data)
 		}
 		return (1);
 	}
+	path = _getenv("PATH", data);
 	token = strtok(path, ":");
 	found = 0;
 	while (token != NULL)
