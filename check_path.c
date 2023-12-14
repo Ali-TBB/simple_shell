@@ -55,6 +55,7 @@ int searchFileInPath(com_list *current, data_of_program *data)
 			current->commande_name = _strdup(tok);
 			tok = strtok(NULL, "/");
 		}
+		handlarg(current);
 		return (1);
 	}
 	path = _getenv("PATH", data);
@@ -75,4 +76,28 @@ int searchFileInPath(com_list *current, data_of_program *data)
 		current->path = NULL;
 	}
 	return (found);
+}
+void handlarg(com_list *command)
+{
+	char *tok;
+	int i;
+
+	tok = strtok(command->commande_name, " ");
+	command->commande_name = _strdup(tok);
+	tok = strtok(NULL, " ");
+	i = 0;
+	command->arg = malloc_arg();
+	if (tok != NULL)
+	{
+	while (tok != NULL)
+	{
+		command->arg[i] = _strdup(tok);
+		tok = strtok(NULL, " ");
+		i++;
+	}
+	}
+	else
+	{
+		command->arg = NULL;
+	}
 }

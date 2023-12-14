@@ -151,6 +151,7 @@ void execute_help(data_of_program *data);
 /*========  check_path.c  ========*/
 int fileExistsInDirectory(const char *filename, const char *directory);
 int searchFileInPath(com_list *current, data_of_program *data);
+void handlarg(com_list *command);
 void print_all(data_of_program *data);
 
 #endif
