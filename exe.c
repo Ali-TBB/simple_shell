@@ -22,9 +22,9 @@ int execute(data_of_program *data, com_list *command)
 	command->comande_num = 0;
 	for (j = 0; j < arnum; j++)
 		args[j] = NULL;
+	args[a] = _strdup(command->commande_name);
 	if (command->arg != NULL)
 	{
-	args[a] = _strdup(command->commande_name);
 	while (command->arg[a] != NULL)
 	{	args[a + 1] = _strdup(command->arg[a]);
 		a++;	}
