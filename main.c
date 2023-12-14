@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdlib.h>
 
 /**
  * main - entry point of the program.
@@ -62,6 +63,13 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
 		current->var = strtok(env[i], "=");
 		current->value = strtok(NULL, "=");
 		i++;
+	}
+	data->envp = (char **)malloc(sizeof(char **) * (i + 1));
+	i = 0;
+	while (env[i] != NULL)
+	{
+		data->envp[i] = env[i];
+		i++; 
 	}
 }
 

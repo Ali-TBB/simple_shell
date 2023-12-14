@@ -16,7 +16,7 @@ int execute(data_of_program *data, com_list *command)
 {
 	int status, i = 0, a = 0, j, arnum = argNum(command);
 	char path[1024];
-	char *envp[] = {NULL}, **args = (char **)malloc(arnum * sizeof(char *));
+	char **args = (char **)malloc(arnum * sizeof(char *));
 	pid_t child_pid;
 
 	command->comande_num = 0;
@@ -38,7 +38,7 @@ int execute(data_of_program *data, com_list *command)
 		child_pid = fork();
 		if (child_pid == 0)
 		{
-			if (execve(path, args, envp) == -1)
+			if (execve(path, args, data->envp) == -1)
 			{
 				perror("execve");
 				exit(EXIT_FAILURE);

@@ -82,6 +82,7 @@ typedef struct info
 {
 	char *prog_name;
 	char *input_line;
+	char **envp;
 	int exec_counter;
 	int file_descriptor;
 	list_t *env;
