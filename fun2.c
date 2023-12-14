@@ -142,7 +142,7 @@ int _clear(com_list *current)
 	const char *clearSeq = "\033[H\033[J";
 
 	if (current != NULL && current->commande_name != NULL &&
-		_strcmp(current->commande_name, "clear") == 0)
+		strcmp(current->commande_name, "clear") == 0)
 	{
 
 		write(STDOUT_FILENO, clearSeq, 7);

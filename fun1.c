@@ -98,7 +98,7 @@ void insert_all_command(data_of_program *data)
 int changeDirectory(com_list *command, data_of_program *data)
 {
 
-	if (_strcmp(command->commande_name, "cd") == 0)
+	if (strcmp(command->commande_name, "cd") == 0)
 	{
 		char *newDir = (command->arg != NULL && command->arg[0] != NULL)
 		? command->arg[0] : _getenv("HOME", data);
