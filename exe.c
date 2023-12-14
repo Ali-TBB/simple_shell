@@ -13,13 +13,13 @@
  */
 int execute(data_of_program *data, com_list *command)
 {
-	int status, i = 0, a = 0, j;
+	int status, i = 0, a = 0, j, arnum = argNum(command);
 	char path[1024];
-	char *envp[] = {NULL}, *args[20];
+	char *envp[] = {NULL}, *args[arnum];
 	pid_t child_pid;
 
 	command->comande_num = 0;
-	for (j = 0; j < 20; j++)
+	for (j = 0; j < arnum; j++)
 		args[j] = NULL;
 	if (command->arg != NULL)
 	{

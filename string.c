@@ -105,3 +105,16 @@ int isString(const char *str)
 
     return (1);
 }
+int argNum(com_list *command)
+{
+	int i = 0;
+
+	if (command->arg == NULL)
+		return (2);
+	while (command->arg[i] != NULL)
+	{
+		i++;
+	}
+	i += 2;
+	return (i);
+}
