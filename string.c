@@ -87,3 +87,21 @@ char **malloc_arg()
 	}
 	return (arg);
 }
+int isString(const char *str)
+{
+	int i;
+
+    if (str == NULL)
+	{
+        return (0);
+    }
+    for (i = 0; str[i] != '\0'; i++)
+	{
+        if (str[i] < 32 || str[i] > 126)
+		{
+            return (0);
+        }
+    }
+
+    return (1);
+}

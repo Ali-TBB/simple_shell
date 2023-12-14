@@ -20,11 +20,10 @@ void get_alias(data_of_program *data)
 		current = data->alias_list;
 		while (current)
 		{
-			alias = current->var;
+			alias = _strdup(current->var);
 
-			if (alias != NULL)
+			if (isString(alias))
 			{
-				printf("alias is:  %s\n" , alias);
 				if (_strcmp(alias, buffer) == 0)
 				{
 					free(command->commande_name);
