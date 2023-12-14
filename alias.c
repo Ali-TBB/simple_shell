@@ -20,7 +20,7 @@ void get_alias(data_of_program *data)
 		while (current)
 		{
 			alias = current->var;
-			if (strcmp(alias, buffer) == 0)
+			if (_strcmp(alias, buffer) == 0)
 			{
 				free(command->commande_name);
 				command->commande_name = _strdup(current->value);
@@ -66,7 +66,7 @@ int check_alias(data_of_program *data, com_list *command)
 	char *var;
 	int i = 0;
 
-	if (strcmp(command->commande_name, "alias") == 0)
+	if (_strcmp(command->commande_name, "alias") == 0)
 	{
 		if (command->arg == NULL)
 		{
@@ -81,7 +81,7 @@ int check_alias(data_of_program *data, com_list *command)
 			value = strtok(NULL, "");
 			while (alias)
 			{
-				if (strcmp(var, alias->var) == 0)
+				if (_strcmp(var, alias->var) == 0)
 				{
 					free(alias->value);
 					alias->value = _strdup(value);
@@ -118,7 +118,7 @@ int print_alias(data_of_program *data, char *arg)
 	alias = data->alias_list;
 	while (alias)
 	{
-		if (strcmp(alias->var, arg) == 0)
+		if (_strcmp(alias->var, arg) == 0)
 		{
 			printf("alias %s='%s'\n", alias->var, alias->value);
 			a = 1;

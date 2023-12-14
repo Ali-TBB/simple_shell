@@ -58,7 +58,7 @@ list_t *get_nodeint_at_var(list_t *head, const char *var)
 
 	while (head != NULL)
 	{
-		if (strcmp(head->var, var) == 0)
+		if (_strcmp(head->var, var) == 0)
 		{
 			return (head);
 		}

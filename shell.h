@@ -107,6 +107,7 @@ void free_listint(list_t *head);
 
 char *removeSubstring(char *original, const char *substring);
 char *_strcat(char *dest, const char *src);
+int _strcmp(const char *s1, const char *s2);
 
 
 /*========  string1.c  ========*/

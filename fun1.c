@@ -99,7 +99,7 @@ int changeDirectory(com_list *command, data_of_program *data)
 {
 	char *com = _strdup(command->commande_name);
 
-	if (strcmp(com, "cd") == 0)
+	if (_strcmp(com, "cd") == 0)
 	{
 		char *newDir = (command->arg != NULL && command->arg[0] != NULL)
 		? command->arg[0] : _getenv("HOME", data);
