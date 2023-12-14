@@ -24,7 +24,6 @@ int execute(data_of_program *data, com_list *command)
 	if (command->arg != NULL)
 	{
 	args[a] = _strdup(command->commande_name);
-	printf("name of prgram is : %s", args[0]);
 	while (command->arg[a] != NULL)
 	{	args[a + 1] = _strdup(command->arg[a]);
 		a++;	}
