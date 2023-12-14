@@ -1,7 +1,4 @@
 #include "shell.h"
-#include <linux/limits.h>
-#include <stdio.h>
-#include <string.h>
 /**
  * fileExistsInDirectory - Check if a file exists in a specific directory.
  * @filename: Name of the file to check.

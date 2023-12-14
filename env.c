@@ -1,7 +1,5 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 /**
  * get_env - processes and updates the input line
  * by replacing environment variables.

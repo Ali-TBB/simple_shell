@@ -140,9 +140,9 @@ void insert_command_nr(com_list *current, char *buffer)
 int _clear(com_list *current)
 {
 	const char *clearSeq = "\033[H\033[J";
-
-	if (current != NULL && current->commande_name != NULL &&
-		strcmp(current->commande_name, "clear") == 0)
+	char *com = _strdup(current->commande_name);
+	if (current != NULL && com != NULL &&
+		strcmp(com, "clear") == 0)
 	{
 
 		write(STDOUT_FILENO, clearSeq, 7);

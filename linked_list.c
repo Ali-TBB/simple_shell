@@ -1,7 +1,4 @@
 #include "shell.h"
-#include <stdio.h>
-#include <unistd.h>
-
 /**
  * add_nodeint_end - add node in the end.
  * @head: head of double pointer
