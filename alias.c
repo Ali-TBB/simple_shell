@@ -20,7 +20,7 @@ void get_alias(data_of_program *data)
 		current = data->alias_list;
 		while (current)
 		{
-			if (current->var != NULL)
+			if (current->var != NULL && current->var[0] != '\0')
 			{
 				alias = _strdup(current->var);
 				if (_strcmp(alias, buffer) == 0)
