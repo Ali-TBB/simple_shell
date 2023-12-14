@@ -26,6 +26,8 @@ list_t *add_nodeint_end(list_t **head)
 		ptr = ptr->next;
 	}
 	ptr->next = new;
+	new->value = NULL;
+	new->var = NULL;
 	return (new);
 }
 
