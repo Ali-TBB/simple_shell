@@ -1,5 +1,6 @@
 #include "shell.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 /**
  * execute - Execute a command based on the data structure.
@@ -15,7 +16,7 @@ int execute(data_of_program *data, com_list *command)
 {
 	int status, i = 0, a = 0, j, arnum = argNum(command);
 	char path[1024];
-	char *envp[] = {NULL}, *args[arnum];
+	char *envp[] = {NULL}, **args = (char **)malloc(arnum * sizeof(char *));
 	pid_t child_pid;
 
 	command->comande_num = 0;
@@ -45,10 +46,10 @@ int execute(data_of_program *data, com_list *command)
 		} else
 		{
 			wait(&status);
-			for (j = 0; j < 20; j++)
-				free(args[j]);
-			i = 1;
-		}
+			for (a = 0; args[a] != NULL; ++a)
+				free(args[a]);
+			free(args);
+			i = 1;	}
 	} else
 		printf("%s: %s: command not found.\n",
 			data->prog_name, command->commande_name);

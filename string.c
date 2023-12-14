@@ -87,24 +87,12 @@ char **malloc_arg()
 	}
 	return (arg);
 }
-int isString(const char *str)
-{
-	int i;
-
-    if (str == NULL)
-	{
-        return (0);
-    }
-    for (i = 0; str[i] != '\0'; i++)
-	{
-        if (str[i] < 32 || str[i] > 126)
-		{
-            return (0);
-        }
-    }
-
-    return (1);
-}
+/**
+ * argNum - Count the number of arguments in a command.
+ * @command: Pointer to the com_list representing the command.
+ *
+ * Return: Number of arguments in the command.
+ */
 int argNum(com_list *command)
 {
 	int i = 0;
