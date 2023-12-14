@@ -20,11 +20,14 @@ void get_alias(data_of_program *data)
 		while (current)
 		{
 			alias = current->var;
-			if (_strcmp(alias, buffer) == 0)
+			if (alias != NULL)
 			{
-				free(command->commande_name);
-				command->commande_name = _strdup(current->value);
-				break;
+				if (_strcmp(alias, buffer) == 0)
+				{
+					free(command->commande_name);
+					command->commande_name = _strdup(current->value);
+					break;
+				}
 			}
 			current = current->next;
 		}
