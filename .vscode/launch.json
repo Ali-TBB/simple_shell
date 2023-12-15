@@ -9,9 +9,9 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "/home/tbb/simple_shell/hsh",
-            "args": [],
-            "cwd": "/home/tbb/simple_shell"
+            "program": "/home/tbb/simple_shell/simple_shell/hsh",
+            "args": ["test"],
+            "cwd": "/home/tbb/simple_shell/simple_shell"
         }
     ]
 }

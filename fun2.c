@@ -14,16 +14,16 @@ void insert_command_and(com_list *current, char *buffer)
 	if (current->falg_type == CHAIN_AND)
 	{
 		current->arg = malloc_arg();
-		toke = strtok(buffer, " ");
+		toke = strtok(buffer, " \t");
 		current->commande_name = _strdup(toke);
-		toke = strtok(NULL, " ");
+		toke = strtok(NULL, " \t");
 		i = 0;
 		if (toke != NULL)
 		{
 		while (toke != NULL)
 		{
 			current->arg[i] = toke;
-			toke = strtok(NULL, " ");
+			toke = strtok(NULL, " \t");
 			i++;
 		}
 		}
@@ -46,16 +46,16 @@ void insert_command_or(com_list *current, char *buffer)
 	if (current->falg_type == CHAIN_OR)
 	{
 		current->arg = malloc_arg();
-		tok = strtok(buffer, " ");
+		tok = strtok(buffer, " \t");
 		current->commande_name = _strdup(tok);
-		tok = strtok(NULL, " ");
+		tok = strtok(NULL, " \t");
 		i = 0;
 		if (tok != NULL)
 		{
 		while (tok != NULL)
 		{
 			current->arg[i] = tok;
-			tok = strtok(NULL, " ");
+			tok = strtok(NULL, " \t");
 			i++;
 		}
 		}
@@ -78,16 +78,16 @@ void insert_command_with(com_list *current, char *buffer)
 	if (current->falg_type == CHAIN_WITH)
 	{
 		current->arg = malloc_arg();
-		toke = strtok(buffer, " ");
+		toke = strtok(buffer, " \t");
 		current->commande_name = _strdup(toke);
-		toke = strtok(NULL, " ");
+		toke = strtok(NULL, " \t");
 		i = 0;
 		if (toke != NULL)
 		{
 		while (toke != NULL)
 		{
 			current->arg[i] = toke;
-			toke = strtok(NULL, " ");
+			toke = strtok(NULL, " \t");
 			i++;
 		}
 		}
@@ -109,9 +109,9 @@ void insert_command_nr(com_list *current, char *buffer)
 
 	if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 	{
-		tok = strtok(buffer, " ");
+		tok = strtok(buffer, " \t");
 		current->commande_name = _strdup(tok);
-		tok = strtok(NULL, " ");
+		tok = strtok(NULL, " \t");
 		i = 0;
 		current->arg = malloc_arg();
 		if (tok != NULL)
@@ -119,7 +119,7 @@ void insert_command_nr(com_list *current, char *buffer)
 		while (tok != NULL)
 		{
 			current->arg[i] = _strdup(tok);
-			tok = strtok(NULL, " ");
+			tok = strtok(NULL, " \t");
 			i++;
 		}
 		}

@@ -9,7 +9,8 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-
+#include <errno.h>
+#include <sys/stat.h>
 
 /************* MACROS **************/
 #include "macros.h"
@@ -69,6 +70,7 @@ typedef struct list_env
  * of program executions.
  * @file_descriptor: The file descriptor used for input (e.g., stdin).
  * @env: Pointer to a linked list of environment variables.
+ * @envp: arrary of environment variables.
  * @alias_list: Pointer to a linked list of alias information.
  * @commande: Pointer to a linked list of command execution information.
  *
@@ -106,7 +108,6 @@ void free_listint(list_t *head);
 
 /*========  string.c  ========*/
 
-char *removeSubstring(char *original, const char *substring);
 char *_strcat(char *dest, const char *src);
 int _strcmp(char *s1, char *s2);
 int argNum(com_list *command);
@@ -116,7 +117,6 @@ int argNum(com_list *command);
 char *_strdup(const char *str);
 char *_strchr(const char *str, int c);
 int _strlen(const char *s);
-char *removestring(const char *buffer, const char *substring);
 
 /*========  alias.c  ========*/
 
@@ -146,14 +146,30 @@ int changeDirectory(com_list *command, data_of_program *data);
 
 /*========  exe.c  ========*/
 
-int execute(data_of_program *data, com_list *command);
-void execute_help(data_of_program *data);
-
+int execute_help(data_of_program *data, com_list *command);
+void execute_help1(data_of_program *data);
+void execute(data_of_program *data, com_list *command);
+int execuet_and(data_of_program *data, com_list *command);
+int execuet_or(data_of_program *data, com_list *command);
+void execuet_with(data_of_program *data, com_list *command);
+char **init_arg(com_list *command, int arnum);
 
 /*========  check_path.c  ========*/
 int fileExistsInDirectory(const char *filename, const char *directory);
 int searchFileInPath(com_list *current, data_of_program *data);
 void handlarg(com_list *command);
 void print_all(data_of_program *data);
+int _print(char *string);
+void str_reverse(char *string);
+void long_to_string(long number, char *string, int base);
+int _printe(char *string);
+int _print_error(int errorcode, data_of_program *data, com_list *command);
+int check_file(char *full_path);
+/*========  gitline.c  ========*/
+int _getline(data_of_program *data);
+
+
+void free_all_data(data_of_program *data);
+
 
 #endif

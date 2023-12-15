@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdlib.h>
 
 /**
  * _strlen - it gives the length of a string
@@ -42,4 +43,23 @@ char *_strdup(const char *str)
 	new[len] = '\0';
 
 	return (new);
+}
+/**
+ * str_reverse - reverses a string.
+ *
+ * @string: pointer to string.
+ * Return: void.
+ */
+void str_reverse(char *string)
+{
+
+	int i = 0, length = _strlen(string) - 1;
+	char hold;
+
+	while (i < length)
+	{
+		hold = string[i];
+		string[i++] = string[length];
+		string[length--] = hold;
+	}
 }

@@ -22,24 +22,6 @@ int _strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-/**
- * removeSubstring - removes a substring from the original string.
- * @original: the original string.
- * @substring: the substring to remove.
- * Return: a new string with the substring removed.
- */
-char *removeSubstring(char *original, const char *substring)
-{
-	char *laststring;
-
-	while (*original == *substring)
-	{
-		original++;
-		substring++;
-	}
-	laststring = _strdup(original);
-	return (laststring);
-}
 
 /**
  * _strcat - concatenates two strings.

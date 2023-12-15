@@ -59,20 +59,14 @@ void insert_all_command(data_of_program *data)
 		{
 			tok = strtok(buffer, "&");
 			insert_command_and(current, tok);
-			tok = strtok(buffer, "&");
-			buffer = removeSubstring(tok, "& ");
 		} else if (current->falg_type == CHAIN_OR && current->comande_num != 0)
 		{
 			tok =  strtok(buffer, "|");
-			insert_command_and(current, tok);
-			tok = strtok(NULL, "");
-			buffer = removeSubstring(tok, "| ");
+			insert_command_or(current, tok);
 		} else if (current->falg_type == CHAIN_WITH && current->comande_num != 0)
 		{
 			tok =  strtok(buffer, ";");
-			insert_command_and(current, tok);
-			tok = strtok(NULL, "");
-			buffer = removeSubstring(tok, " ");
+			insert_command_with(current, tok);
 		} else if (current->falg_type == CHAIN_NR && current->comande_num != 0)
 		{
 			insert_command_nr(current, buffer);

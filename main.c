@@ -1,22 +1,27 @@
 #include "shell.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * main - entry point of the program.
- * @ac: the number of command-line arguments.
- * @av: an array of command-line arguments.
+ * @argc: the number of command-line arguments.
+ * @argv: an array of command-line arguments.
  * @env: an array of environment variables.
  * Return: exit status.
  */
-int main(int ac, char *av[], char *env[])
+int main(int argc, char *argv[], char *env[])
 {
 
 	data_of_program data_struct = {NULL}, *data = &data_struct;
+	char *prompt = "";
 
+	data_init(data, argc, argv, env);
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
+	{/* We are in the terminal, interactive mode */
+		errno = 2;/*???????*/
+		prompt = PROMPT_MSG;
+	}
+	errno = 0;
 
-	char *prompt = "$";
-
-	data_init(data, ac, av, env);
 	run(prompt, data);
 
 	return (0);
@@ -25,52 +30,52 @@ int main(int ac, char *av[], char *env[])
 /**
  * data_init - initializes the data structure.
  * @data: Pointer to the data_of_program struct.
- * @ac: Number of command-line arguments.
- * @av: Array of command-line arguments.
+ * @argc: Number of command-line arguments.
+ * @argv: Array of command-line arguments.
  * @env: Array of environment variables.
  */
-void data_init(data_of_program *data, int ac, char *av[], char *env[])
+void data_init(data_of_program *data, int argc, char *argv[], char *env[])
 {
 	int i = 0;
 	list_t *current;
-	list_t alias = {"env", "env", NULL};
 
-	data->prog_name = av[0];
+	data->prog_name = _strdup(argv[0]);
 	data->exec_counter = 0;
 	data->input_line = NULL;
-	if (ac == 1)
-	{
-		data->file_descriptor = STDERR_FILENO;
-	}
+	if (argc == 1)
+		data->file_descriptor = STDIN_FILENO;
 	else
-	{
-		data->file_descriptor = open(av[1], O_RDONLY);
+	{	data->file_descriptor = open(argv[1], O_RDONLY);
 		if (data->file_descriptor == -1)
-		{
-			fprintf(stderr, "%s: 0: Can't open %s\n", data->prog_name, av[1]);
+		{	_printe(data->prog_name);
+			_printe(": 0: Can't open ");
+			_printe(argv[1]);
+			_printe("\n");
 			exit(127);
 		}
-	}
-
+		}
 	data->env = NULL;
-	data->alias_list = &alias;
+	data->alias_list = NULL;
 	data->commande = add_comande_end(data);
 	data->commande->comande_num = 0;
-	data->commande->commande_name = av[0];
-	while (env[i] != NULL)
+	data->commande->commande_name = argv[0];
+	data->envp = (char **)malloc(sizeof(char **) * (i + 1));
+	if (env)
 	{
-		current = add_nodeint_end(&data->env);
+		for (; env[i]; i++)
+		{
+			data->envp[i] = _strdup(env[i]);
+		}
+	}
+	data->envp[i] = NULL;
+	i = 0;
+	while (env[i] != NULL)
+	{	current = add_nodeint_end(&data->env);
 		current->var = strtok(env[i], "=");
 		current->value = strtok(NULL, "=");
 		i++;
 	}
-	data->envp = (char **)malloc(sizeof(char **) * (i + 1));
-	i = 0;
-	while (env[i] != NULL)
-	{
-		data->envp[i] = env[i];
-		i++; 
-	}
+	env = data->envp;
 }
 
 /**
@@ -81,35 +86,24 @@ void data_init(data_of_program *data, int ac, char *av[], char *env[])
  */
 void run(char *prompt, data_of_program *data)
 {
-	size_t len = 0;
 	ssize_t read;
-	int lenght;
 
 	while (++(data->exec_counter))
 	{
-		printf("%s", prompt);
 
-		read = getline(&data->input_line, &len, stdin);
+		_print(prompt);
 
-		if (read == -1)
+		read = _getline(data);
+
+		if (read > 0)
 		{
-			if (feof(stdin))
-			{
-				break;
-			}
-			else
-			{
-				perror("getline");
-				exit(EXIT_FAILURE);
-			}
+			execute_help1(data);
 		}
-		lenght = strlen(data->input_line);
-		if (lenght)
+		else if (read == EOF)
 		{
-			if (data->input_line[lenght - 1] == '\n')
-				data->input_line[lenght - 1] = '\0';
+			break;
 		}
-		execute_help(data);
-		read = 0;
 	}
+	free_all_data(data);
+	exit(errno);
 }

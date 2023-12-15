@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <stdio.h>
 /**
  * fileExistsInDirectory - Check if a file exists in a specific directory.
  * @filename: Name of the file to check.
@@ -20,7 +21,6 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 		fclose(file);
 		return (1);
 	}
-
 	return (0);
 }
 /**
@@ -39,36 +39,37 @@ int fileExistsInDirectory(const char *filename, const char *directory)
 int searchFileInPath(com_list *current, data_of_program *data)
 {
 	char *path;
-	char *token, *tok;
+	char *token, *tok, full_path[1024];
 	int found;
 
-	tok = strtok(current->commande_name, "/");
-	tok = strtok(NULL, "/");
+	tok = strtok(current->commande_name, "/.");
+	tok = strtok(NULL, "/.");
 	if (tok != NULL)
 	{
 		current->path = _strdup(current->commande_name);
 		while (tok != NULL)
 		{
 			current->commande_name = _strdup(tok);
-			tok = strtok(NULL, "/");
+			tok = strtok(NULL, "/.");
 		}
 		handlarg(current);
-		return (1);
+		return (0);
 	}
 	path = _getenv("PATH", data);
 	token = strtok(path, ":");
-	found = 0;
 	while (token != NULL)
 	{
-		if (fileExistsInDirectory(current->commande_name, token))
+		snprintf(full_path, sizeof(full_path), "%s/%s",
+		token, current->commande_name);
+		found = check_file(full_path);
+		if (found == 0)
 		{
 			current->path = _strdup(token);
-			found = 1;
-			break;
+			return (found);
 		}
 		token = strtok(NULL, ":");
 	}
-	if (!found)
+	if (!token)
 	{
 		current->path = NULL;
 	}
@@ -103,4 +104,28 @@ void handlarg(com_list *command)
 	{
 		command->arg = NULL;
 	}
+}
+/**
+ * check_file - checks if exists a file, if it is not a dairectory and
+ * if it has excecution permisions for permisions.
+ * @full_path: pointer to the full file name
+ * Return: 0 on success, or error code if it exists.
+ */
+
+int check_file(char *full_path)
+{
+	struct stat sb;
+
+	if (stat(full_path, &sb) != -1)
+	{
+		if (S_ISDIR(sb.st_mode) ||  access(full_path, X_OK))
+		{
+			errno = 126;
+			return (126);
+		}
+		return (0);
+	}
+	/*if not exist the file*/
+	errno = 127;
+	return (127);
 }
