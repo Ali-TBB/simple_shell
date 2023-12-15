@@ -37,9 +37,9 @@ int execute_help(data_of_program *data, com_list *command)
  */
 void execute(data_of_program *data, com_list *command)
 {
-	int status, a = 0, j, arnum = argNum(command);
+	int status, a = 0, arnum = argNum(command);
 	char path[1024];
-	char **args = (char **)malloc(arnum * sizeof(char *));
+	char **args;
 	pid_t child_pid;
 
 	if (command->comande_num == 0)
@@ -78,15 +78,14 @@ void execute(data_of_program *data, com_list *command)
  */
 void execute_help1(data_of_program *data)
 {
-	com_list *command1 = data->commande, *command2;
+	com_list *command1 = data->commande;
 	int ret_ex;
 
 	get_env(data);
 	get_chain(data);
 	while (command1)
 	{
-		if (command1->next != NULL)
-			command2 = command1->next;
+
 		if (command1->falg_type == CHAIN_NR && command1->comande_num != 0)
 		{
 			ret_ex = execute_help(data, command1);
@@ -129,7 +128,7 @@ void execute_help1(data_of_program *data)
 char **init_arg(com_list *command, int arnum)
 {
 	int a = 0, j;
-	char **args;
+	char **args = (char **)malloc(arnum * sizeof(char *));
 
 	for (j = 0; j <= arnum; j++)
 		args[j] = NULL;
